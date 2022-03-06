@@ -5,11 +5,10 @@ from flask_cors import CORS
 import traceback
 from models import setup_db, SampleLocation, db_drop_and_create_all
 
+app=Flask(__name__)
 
-#@app.route("/")
-#@app.route("/index")
-#def index():
-#    return render_template('index.html', title= 'Home Page') 
+
+
 
 #maps code
 def create_app(test_config=None):
@@ -20,8 +19,19 @@ def create_app(test_config=None):
     """ uncomment at the first time running the app """
     db_drop_and_create_all()
 
-    @app.route('/', methods=['GET'])
-    def home():
+
+    #templates
+    @app.route("/")
+    @app.route("/index")
+    def index():
+        return render_template('index.html')
+      #templates
+
+
+
+    
+    @app.route('/map', methods=['GET'])
+    def map():
         return render_template(
             'map.html', 
             map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!')
@@ -78,8 +88,13 @@ def create_app(test_config=None):
             "message": "server error"
         }), 500
 
+    
+    
+
+
     return app
 #maps code
+
 app= create_app()
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",5000))

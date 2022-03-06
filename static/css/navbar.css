@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+#dromeas-logo {
+  font-family: "Pacifico", cursive;
+  font-weight: bold;
+}
+/*footer*/
+#footer-logo {
+  font-family: "Pacifico", cursive;
+  font-weight: bold;
+  text-align: center;
+}
+.footer {
+  text-align: center;
+}
