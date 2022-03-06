@@ -5,6 +5,13 @@ from flask_cors import CORS
 import traceback
 from models import setup_db, SampleLocation, db_drop_and_create_all
 
+
+#@app.route("/")
+#@app.route("/index")
+#def index():
+#    return render_template('index.html', title= 'Home Page') 
+
+#maps code
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
@@ -72,8 +79,8 @@ def create_app(test_config=None):
         }), 500
 
     return app
-
-app = create_app()
+#maps code
+app= create_app()
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",5000))
     app.run(host='127.0.0.1',port=port,debug=True)
