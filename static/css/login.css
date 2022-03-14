@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+#content-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 20px;
+  margin-bottom: 20px;
+
+  width: 600px;
+
+  font-family: "Open Sans", sans-serif;
+}
+#dromeas {
+  text-align: -webkit-center;
+  border: solid;
+  border-radius: 100%;
+  width: 200px;
+  height: 200px;
+}

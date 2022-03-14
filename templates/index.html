@@ -1,28 +1,118 @@
 {% extends 'navbar.html' %} {% block content %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/index.css') }}"
+/>
 
 <div class="container">
   <div class="row">
-    <div class="col-md-6 px-0">
-      <h1>We run</h1>
+    <div class="col-sm-6">
+      <h1 class="main-header">We run</h1>
 
-      <h1>We motivate</h1>
+      <h1 class="main-header">We motivate</h1>
 
       <h1>We achieve</h1>
 
-      <p>
+      <p class="intro">
         Dromèas is an app which helps females find a <br />
         marathon training partner and help each other by <br />
         motivating and achieve the goal.
       </p>
+      {% if current_user.is_authenticated %}
+      <button type="button" class="btn btn-success">
+        <a class="login-btn" href="{{ url_for('map') }}">Find a Dromeas</a>
+      </button>
+      {% else %}
+      <button id="btn1" type="button" class="btn btn-info">
+        <a class="info-btn" href="{{ url_for('signup') }}">SIGN UP FOR FREE</a>
+      </button>
+      <button id="btn2" type="button" class="btn btn-light">
+        <a class="login-btn" href="{{ url_for('login') }}">LOG IN</a>
+      </button>
+      {% endif %}
     </div>
-    <div class="col-md-6 px-0">
+
+    <div class="col-sm-6">
       <img
         class="img-fluid"
-        id="round"
-        src="https://res.cloudinary.com/sev/image/upload/c_scale,h_400,w_600/v1646580489/launchpageimage_ppampb.jpg"
+        id="img-round"
+        src="https://res.cloudinary.com/sev/image/upload/c_scale,w_600/v1646580489/launchpageimage_ppampb.jpg"
       />
     </div>
   </div>
 </div>
 <hr />
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xs">
+      <h1 class="text-center">Dromèas</h1>
+      <p class="main-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quambr
+        velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate
+        commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
+        eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam
+        nec dui.
+      </p>
+      <img
+        id="img-round"
+        class="img-fluid mx-auto d-block"
+        src="https://res.cloudinary.com/sev/image/upload/c_scale,w_600/v1646731891/marathongirls2_xbhol3.jpg"
+      />
+    </div>
+  </div>
+</div>
+<hr />
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xs">
+      <h1 class="text-center">Our Mission</h1>
+      <p class="main-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quambr
+        velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate
+        commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
+        eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam
+        nec dui.
+      </p>
+      <img
+        id="img-round"
+        class="img-fluid mx-auto d-block"
+        src="https://res.cloudinary.com/sev/image/upload/c_scale,w_600/v1646824703/marathongirls_y3qoik.jpg"
+      />
+    </div>
+  </div>
+</div>
+<hr />
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xs">
+      <h1 class="text-center">The Route</h1>
+      <p class="main-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quambr
+        velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate
+        commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
+        eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam
+        nec dui.
+      </p>
+      <img
+        id="img-round"
+        class="img-fluid mx-auto d-block"
+        src="https://res.cloudinary.com/sev/image/upload/c_scale,w_600/v1647247490/marathon-strecke_xekkmq.jpg"
+      />
+    </div>
+  </div>
+</div>
+<button onclick="topFunction()" id="myBtn" title="Go to top">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+{% include "footer.html" %}
+<script src="{{ url_for('static', filename='gotopbtn.js') }}"></script>
 {% endblock %}

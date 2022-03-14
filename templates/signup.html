@@ -1,3 +1,121 @@
 {% extends 'navbar.html' %} {% block content %}
-<h1>Hello signup page</h1>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/signup.css') }}"
+/>
+
+  
+<div id ="dromeas-intro" class="container">
+  <h1>Dromeas</h1>
+  <h2>Create a Profile 🤸‍♀️</h2>
+  <p>create a profile now and get the chance to connect with others near you</p>
+  </div>
+
+
+<div class="container" >
+  <form method="POST" action="" id="content-container">
+    {{ form.csrf_token() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Join Today</legend>
+      <div class="mb-3">
+        {{ form.username.label(class='form-control-label') }}
+        
+        {% if form.username.errors %}
+        {{ form.username(class='form-control form-control-lg is-invalid') }}
+        <div class="invalid-feedback">
+          {% for error in form.username.errors %}
+               <span>{{ error }}</span>
+          {% endfor %}
+
+        </div>
+        {% else %}
+            {{ form.username(class='form-control form-control-lg') }}
+        {% endif %}
+
+        
+        
+        <div class="form-text">
+          We'll never share your email with anyone else.
+        </div>
+      </div>
+      <div class="mb-3">
+        {{ form.email.label(class='form-control-label') }} 
+
+        {% if form.email.errors %}
+        {{ form.email(class='form-control form-control-lg is-invalid') }}
+        <div class="invalid-feedback">
+          {% for error in form.email.errors %}
+               <span>{{ error }}</span>
+          {% endfor %}
+
+        </div>
+        {% else %}
+            {{ form.email(class='form-control form-control-lg') }}
+        {% endif %}
+       
+        <div class="form-text">
+          We'll never share your email with anyone else.
+        </div>
+      </div>
+      <div class="mb-3">
+        {{ form.password.label(class='form-control-label') }} 
+        {% if form.password.errors %}
+        {{ form.password(class='form-control form-control-lg is-invalid') }}
+        <div class="invalid-feedback">
+          {% for error in form.password.errors %}
+               <span>{{ error }}</span>
+          {% endfor %}
+
+        </div>
+        {% else %}
+            {{ form.password(class='form-control form-control-lg') }}
+        {% endif %}
+    
+        
+      </div>
+      <div class="mb-3">
+        {{ form.confirm_password.label(class='form-control-label') }}
+        {% if form.confirm_password.errors %}
+        {{ form.confirm_password(class='form-control form-control-lg is-invalid') }}
+        <div class="invalid-feedback">
+          {% for error in form.confirm_password.errors %}
+               <span>{{ error }}</span>
+          {% endfor %}
+
+        </div>
+        {% else %}
+            {{ form.confirm_password(class='form-control form-control-lg') }}
+        {% endif %}
+          
+       
+      </div>
+    </fieldset>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <div class="container">
+      {{ form.submit(class='btn btn-outline-primary') }}
+    </div>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        Already have an Account?<a class="ml-2" href="{{ url_for('login') }}"
+          >Log In</a
+        >
+      </small>
+  </form>
+  
+</div>
+<div class="container">
+  <div class="row">
+    <div class="footer">
+      {% include "footer.html" %}
+
+    </div>
+
+  </div>
+
+</div>
+
 {% endblock %}

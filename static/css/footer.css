@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+/*footer*/
+#footer {
+  font-family: "Open Sans", sans-serif;
+  color: #798da3;
+  text-align: center;
+}
+#footer-logo {
+  font-family: "Pacifico", cursive;
+  font-weight: bold;
+  text-align: center;
+  font-size: 200%;
+}
+.footer {
+  text-align: center;
+}
+.fa-brands {
+  margin-right: 20px;
+  font-size: 1.4em;
+}
+/*----------------------------------------------------*/

@@ -1,3 +1,4 @@
+
 import os
 from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,11 @@ from geoalchemy2.functions import ST_DWithin
 from geoalchemy2.types import Geography
 from sqlalchemy.sql.expression import cast
 from geoalchemy2.shape import from_shape
+#importing extension from tutorial(video6)
+
+from flask_login import UserMixin, LoginManager
+
+
 
 db = SQLAlchemy()
 
@@ -17,13 +23,13 @@ setup_db(app):
     binds a flask application and a SQLAlchemy service
 '''
 def setup_db(app):
-    database_path = os.getenv('DATABASE_URL', 'DATABASE_URL_WAS_NOT_SET?!')
+    database_path = os.getenv('DATABASE_URL', 'postgresql://crvrudabwiisgs:a61a32d0f71f884e16e2bf98416762c50e507c36487c15970277fb4b27b1cea9@ec2-44-199-52-133.compute-1.amazonaws.com:5432/dq386rv0n6bh7')
 
     # https://stackoverflow.com/questions/62688256/sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy-dialectspostgre
     database_path = database_path.replace('postgres://', 'postgresql://')
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
     db.app = app
     db.init_app(app)
 
@@ -124,4 +130,21 @@ class SampleLocation(db.Model):
         db.session.commit()
 
     def update(self):
-        db.session.commit()         
+        db.session.commit()    
+
+#--------------created the database model like in the tutorials-------#
+ #@login_manager.user_loader
+    #def load_user(user_id):
+   # return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key= True)
+    username= db.Column(db.String(20), unique=True, nullable=False)
+    email= db.Column(db.String(120), unique=True, nullable=False)
+    image_file= db.Column(db.String(20), nullable=False, default='default.jpg')
+    password= db.Column(db.String(60), nullable= False)
+    about_me = db.Column(db.Text)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.about_me}', '{self.image_file}')"
+
