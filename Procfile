@@ -1,1 +1,1 @@
-web: python classifier/app.py
+web: gunicorn app:app 
