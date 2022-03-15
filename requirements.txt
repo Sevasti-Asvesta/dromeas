@@ -7,9 +7,9 @@ colorama==0.4.4
 Flask==2.0.2
 Flask-Cors==3.0.10
 Flask-WTF==1.0.0
-Flask-SQLAlchemy == 2.5.1
+Flask-SQLAlchemy == 2.5.1 #extra
 gunicorn==20.1.0
-Geoalchemy2 == 0.11.1
+Geoalchemy2 == 0.11.1 #extra
 idna==3.3
 iniconfig==1.1.1
 itsdangerous==2.0.1
@@ -22,6 +22,7 @@ pyparsing==3.0.6
 pytest==6.2.5
 requests==2.26.0
 six==1.16.0
+Shapely == 1.8.1 # extra
 toml==0.10.2
 urllib3==1.26.7
 Werkzeug==2.0.2
