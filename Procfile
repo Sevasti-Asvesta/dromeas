@@ -1,1 +1,1 @@
-web: gunicorn dromeas:app 
+web: python classifier/app.py
