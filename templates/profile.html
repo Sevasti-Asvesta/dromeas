@@ -15,12 +15,12 @@
               <div class="card-block text-center text-white">
                 <div class="mb-25">
                   <img
-                    src="https://res.cloudinary.com/sev/image/upload/v1647245976/icons8-runner-64_bs5skq.png"
-                    class="img-radius"
+                    src="{{ image_file }}"
+                    class="rounded-circle account-img"
                     alt="User-Profile-Image"
                   />
                 </div>
-                <h6 class="f-w-600">User's Profile</h6>
+                <h6 class="f-w-600">{{ current_user.username }}</h6>
               </div>
             </div>
             <div class="col-md-8">
@@ -28,11 +28,7 @@
                 <h6 class="mb-20 pb-5 b-b-default f-w-600">🏃🏽‍♀️ About Me</h6>
                 <div class="row">
                   <div class="col">
-                    <p class="mb-10 text-muted">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Accusantium sit at tenetur unde iste nesciunt consectetur
-                      a eum doloribus deserunt? Animi officia
-                    </p>
+                    <p class="mb-10 text-muted">{{ current_user.about_me }}</p>
                   </div>
                 </div>
                 <h6 class="mb-20 mt-40 pb-5 b-b-default f-w-600">
@@ -41,11 +37,11 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <p class="mb-10 f-w-600">Level</p>
-                    <h6 class="text-muted f-w-400">Begginer</h6>
+                    <h6 class="text-muted f-w-400">{{ current_user.level }}</h6>
                   </div>
                   <div class="col-sm-6">
                     <p class="mb-10 f-w-600">Area</p>
-                    <h6 class="text-muted f-w-400">12345</h6>
+                    <h6 class="text-muted f-w-400">{{ current_user.area }}</h6>
                   </div>
                 </div>
               </div>

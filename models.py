@@ -1,4 +1,3 @@
-
 import os
 from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
@@ -29,7 +28,7 @@ def setup_db(app):
     database_path = database_path.replace('postgres://', 'postgresql://')
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
 
@@ -41,6 +40,8 @@ def db_drop_and_create_all():
     db.drop_all()
     db.create_all()
 
+   
+   
     # Initial sample data:
     insert_sample_locations()
 
@@ -141,10 +142,13 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key= True)
     username= db.Column(db.String(20), unique=True, nullable=False)
     email= db.Column(db.String(120), unique=True, nullable=False)
-    image_file= db.Column(db.String(20), nullable=False, default='default.jpg')
+    image_file= db.Column(db.String(20), nullable=False, default='icon-runner.png')
     password= db.Column(db.String(60), nullable= False)
-    about_me = db.Column(db.Text)
+    
+    about_me = db.Column(db.Text, nullable= False)
+    area= db.Column(db.String(100), nullable= False)
+    level= db.Column(db.String(100), nullable= False)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.about_me}', '{self.image_file}')"
+        return f"User('{self.username}', '{self.email}','{self.image_file}','{self.about_me},'{self.level},'{self.area})"
 

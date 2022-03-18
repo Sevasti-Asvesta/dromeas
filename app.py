@@ -1,12 +1,13 @@
-
 import os
 import sys
+import secrets
+from PIL import Image
 from flask import Flask, request, abort, jsonify, render_template, url_for, flash, redirect
 from flask_cors import CORS
 import traceback
-from models import setup_db, SampleLocation, db_drop_and_create_all, db, User
+from models import setup_db, SampleLocation,  User, db #,db_drop_and_create_all
 #importing from forms.py the classes and then create routes
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, UpdateSettingsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
 from models import SQLAlchemy
@@ -39,8 +40,11 @@ def create_app(test_config=None):
     login_manager.init_app(app)
     login_manager.login_view='login' 
     login_manager.login_message_category='info'
+    
+    
     #according to the tutorial(vid.6) this has to be above 
     #User class in the models file
+
     @login_manager.user_loader
     def load_user(user_id):
        return User.query.get(int(user_id))
@@ -64,7 +68,7 @@ def create_app(test_config=None):
         form = RegistrationForm()
         if form.validate_on_submit():
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-            user= User(username=form.username.data, email=form.email.data, password= hashed_password)
+            user= User(username=form.username.data, email=form.email.data, password= hashed_password, about_me=form.about_me.data, area=form.area.data, level=form.level.data)
             db.session.add(user)
             db.session.commit()
             flash(f'Account created for {form.username.data}', 'success')
@@ -98,13 +102,61 @@ def create_app(test_config=None):
     @app.route('/profile')
     @login_required
     def profile():
-        return render_template('profile.html', title='Profile')
+        
+        image_file = url_for('static', filename= 'images/' + current_user.image_file)
+        return render_template('profile.html', title='Profile', image_file= image_file)
 
+    
+    #function for the images
+    
+    def save_picture(form_picture):
+      random_hex = secrets.token_hex(8)
+      _, f_ext = os.path.splitext(form_picture.filename)
+      picture_fn = random_hex + f_ext
+      picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
+      
+      output_size = (300, 300)
+      i= Image.open(form_picture)
+      i.thumbnail(output_size)
+      i.save(picture_path)
+
+      return picture_fn
+
+
+
+   
     #settings page
-    @app.route('/settings')
-    @login_required    
+    @app.route('/settings', methods=['GET', 'POST'])
+       
     def settings():
-        return render_template('settings.html')
+        form= UpdateSettingsForm()
+        
+        if form.validate_on_submit():
+          if form.picture.data:
+              picture_file = save_picture(form.picture.data)
+              current_user.image_file = picture_file
+                
+          current_user.username = form.username.data
+          current_user.email = form.email.data 
+          current_user.about_me= form.about_me.data
+          current_user.area= form.area.data
+          current_user.level = form.level.data
+          db.session.commit()
+          flash('your changes have been saved🎊', 'success')
+          return redirect(url_for('settings'))
+        elif request.method == 'GET' :
+            form.about_me.data = current_user.about_me
+            form.area.data = current_user.area
+            form.level.data =current_user.level
+            form.username.data = current_user.username
+            form.email.data = current_user.email
+        image_file= url_for('static', filename='images/' + current_user.image_file)
+        return render_template('settings.html', title='Settings', image_file = image_file, form=form )
+        
+    
+    
+    
+
 
     #map page
     @app.route('/map', methods=['GET'])
@@ -172,9 +224,10 @@ def create_app(test_config=None):
     return app
 #maps code
 
+app= create_app()  
 
 if __name__ == '__main__':
     #port = int(os.environ.get("PORT",5000))
     app.run(debug=True) #host='127.0.0.1',port=port,
 
-app= create_app()    
+  
