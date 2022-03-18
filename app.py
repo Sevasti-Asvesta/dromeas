@@ -1,6 +1,7 @@
 import os
 import sys
 import secrets
+import psycopg2
 from PIL import Image
 from flask import Flask, request, abort, jsonify, render_template, url_for, flash, redirect
 from flask_cors import CORS
