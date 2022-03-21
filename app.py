@@ -1,14 +1,13 @@
 import os
 import sys
 import secrets
-import psycopg2
 from PIL import Image
 from flask import Flask, request, abort, jsonify, render_template, url_for, flash, redirect
 from flask_cors import CORS
 import traceback
 from models import setup_db, SampleLocation,  User, db #,db_drop_and_create_all
 #importing from forms.py the classes and then create routes
-from forms import RegistrationForm, LoginForm, UpdateSettingsForm
+from forms import NewLocationForm, RegistrationForm, LoginForm, UpdateSettingsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
 from models import SQLAlchemy
@@ -111,54 +110,58 @@ def create_app(test_config=None):
     #function for the images
     
     def save_picture(form_picture):
-      random_hex = secrets.token_hex(8)
-      _, f_ext = os.path.splitext(form_picture.filename)
-      picture_fn = random_hex + f_ext
-      picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
+         random_hex = secrets.token_hex(8)
+         _, f_ext = os.path.splitext(form_picture.filename)
+         picture_fn = random_hex + f_ext
+         picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
       
-      output_size = (300, 300)
-      i= Image.open(form_picture)
-      i.thumbnail(output_size)
-      i.save(picture_path)
+         output_size = (300, 300)
+         i= Image.open(form_picture)
+         i.thumbnail(output_size)
+         i.save(picture_path)
 
-      return picture_fn
+         return picture_fn
 
 
 
    
     #settings page
     @app.route('/settings', methods=['GET', 'POST'])
-       
+    @login_required   
     def settings():
         form= UpdateSettingsForm()
-        
         if form.validate_on_submit():
-          if form.picture.data:
-              picture_file = save_picture(form.picture.data)
-              current_user.image_file = picture_file
-                
-          current_user.username = form.username.data
-          current_user.email = form.email.data 
-          current_user.about_me= form.about_me.data
-          current_user.area= form.area.data
-          current_user.level = form.level.data
-          db.session.commit()
-          flash('your changes have been saved🎊', 'success')
-          return redirect(url_for('settings'))
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                current_user.image_file = picture_file
+            
+            current_user.username = form.username.data
+            current_user.email= form.email.data
+            current_user.about_me= form.about_me.data
+            current_user.level = form.level.data
+            current_user.area = form.area.data
+            db.session.commit()
+            flash('Your Profile has been up updated 🚀', 'success')
+            return redirect(url_for('settings'))
         elif request.method == 'GET' :
-            form.about_me.data = current_user.about_me
-            form.area.data = current_user.area
-            form.level.data =current_user.level
             form.username.data = current_user.username
             form.email.data = current_user.email
+            form.about_me.data=current_user.about_me
+            form.level.data = current_user.level
+            form.area.data=current_user.area
         image_file= url_for('static', filename='images/' + current_user.image_file)
         return render_template('settings.html', title='Settings', image_file = image_file, form=form )
         
-    
-    
-    
 
-
+      #map page sample
+    @app.route('/newlocation', methods=['GET', 'POST'])
+    def newlocation():
+        form= NewLocationForm()
+        if form.validate_on_submit():
+            print('handle')
+        return render_template(
+            'newlocation.html', form=form,  map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!')) 
+            
     #map page
     @app.route('/map', methods=['GET'])
     def map():

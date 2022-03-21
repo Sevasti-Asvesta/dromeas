@@ -1,8 +1,9 @@
 
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from models import User
 
@@ -13,8 +14,9 @@ class RegistrationForm(FlaskForm):
    password= PasswordField('Password', validators=[DataRequired()])
    confirm_password= PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
    about_me=TextAreaField('About Me', validators=[DataRequired()])
-   level=StringField('Level', validators=[DataRequired()])
+   level=SelectField('Level',choices=['Beginner', 'Intermediate', 'Expert'], validators=[DataRequired()])
    area=StringField('Area', validators=[DataRequired()])
+   
    submit= SubmitField('Sign Up')
 
    def validate_username(self, username):
@@ -44,7 +46,7 @@ class UpdateSettingsForm(FlaskForm):
      picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
      
      about_me=TextAreaField('About Me', validators=[DataRequired()])
-     level=StringField('level', validators=[DataRequired()])
+     level=SelectField('Level',choices=['Beginner', 'Intermediate', 'Expert'], validators=[DataRequired()])
      area=StringField('Area', validators=[DataRequired()])
 
      submit = SubmitField('Update')
@@ -63,3 +65,10 @@ class UpdateSettingsForm(FlaskForm):
              if user:
                 raise ValidationError('That Email already exists.')
 
+class NewLocationForm(FlaskForm):
+   description= StringField
+
+   lookup_address= StringField
+   coord_latitude=HiddenField
+   coord_longtitude=HiddenField
+   submit= SubmitField
