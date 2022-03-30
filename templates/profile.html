@@ -4,7 +4,7 @@
   type="text/css"
   href="{{ url_for('static', filename='css/profile.css') }}"
 />
-<h1 class="text-center">Welcome User</h1>
+<h1 class="text-center">Welcome {{ current_user.username }}</h1>
 <div class="container" id="page-content">
   <div class="padding">
     <div class="row container d-flex justify-content-center">

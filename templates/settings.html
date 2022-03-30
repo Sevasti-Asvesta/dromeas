@@ -1,14 +1,21 @@
-{% extends 'navbar.html' %} {% block content %}
-<h1>Hello settings page</h1>
-<div class="container">
+{% extends 'navbar.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/settings.css') }}"
+/>
+{% endblock %} {% block content %}
+
+<div class="content-section">
   <div class="media">
-    <img class="rounded-circle account-img" src="{{ image_file }}" />
+    <legend class="border-bottom mb-7">Profile Info</legend>
+    <img class="rounded-circle" src="{{ image_file }}" />
     <div class="media-body">
-      <h2 class="account-heading">{{ current_user.username }}</h2>
-      <p class="text-secondary">{{ current_user.email }}</p>
-      <p class="text-secondary">{{ current_user.about_me }}</p>
-      <p class="text-secondary">{{ current_user.level }}</p>
-      <p class="text-secondary">{{ current_user.area }}</p>
+      <h2>{{ current_user.username }}</h2>
+      <p class="text-muted">{{ current_user.email }}</p>
+      <p class="text-muted">{{ current_user.about_me }}</p>
+      <p class="text-muted">{{ current_user.level }}</p>
+      <p class="text-muted">{{ current_user.area }}</p>
     </div>
   </div>
 </div>
@@ -16,7 +23,7 @@
   <form method="POST" action="" enctype="multipart/form-data">
     {{ form.csrf_token() }}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Profile Info</legend>
+      <legend class="border-bottom mb-4">Update Profile Info</legend>
       <div class="form-group">
         {{ form.username.label(class="form-control-label") }} {% if
         form.username.errors %} {{form.username(class="form-control
@@ -65,10 +72,4 @@
   </form>
 </div>
 
-<div class="container">
-  <div class="row">
-    <div class="footer">{% include "footer.html" %}</div>
-  </div>
-</div>
-
-{% endblock %}
+{% include "footer.html" %} {% endblock %}

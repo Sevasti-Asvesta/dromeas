@@ -3,8 +3,7 @@ body {
 }
 
 /*.padding {
-  margin-left: 80px !important;
-  margin-right: 80px;
+  padding: 3rem !important;
 }*/
 
 .user-card-full {
@@ -36,10 +35,10 @@ body {
     linear,
     left top,
     right top,
-    from(#f29263),
-    to(#ee5a6f)
+    from(#02fcadce),
+    to(#23fa02c0)
   );
-  background: linear-gradient(to right, #ee5a6f, #f29263);
+  background: linear-gradient(to right, #02fcadce, #23fa02c0);
 }
 
 .user-profile {
@@ -55,7 +54,7 @@ body {
 }
 
 .img-radius {
-  border-radius: 5px;
+  border-radius: 7px;
 }
 
 h6 {

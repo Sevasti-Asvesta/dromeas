@@ -5,14 +5,6 @@
   href="{{ url_for('static', filename='css/signup.css') }}"
 />
 
-  
-<div id ="dromeas-intro" class="container">
-  <h1>Dromeas</h1>
-  <h2>Create a Profile 🤸‍♀️</h2>
-  <p>create a profile now and get the chance to connect with others near you</p>
-  </div>
-
-
 <div class="container" >
   <form method="POST" action="" id="content-container">
     {{ form.csrf_token() }}
@@ -110,7 +102,7 @@
       <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
     <div class="container">
-      {{ form.submit(class='btn btn-outline-primary') }}
+      {{ form.submit(class='btn ') }}
     </div>
     <div class="border-top pt-3">
       <small class="text-muted">

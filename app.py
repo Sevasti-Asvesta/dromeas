@@ -15,7 +15,7 @@ from flask_login import LoginManager
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-app=Flask(__name__)
+#app=Flask(__name__)
 
 
 #maps code
@@ -127,7 +127,7 @@ def create_app(test_config=None):
    
     #settings page
     @app.route('/settings', methods=['GET', 'POST'])
-    @login_required   
+    @login_required
     def settings():
         form= UpdateSettingsForm()
         if form.validate_on_submit():
@@ -135,11 +135,8 @@ def create_app(test_config=None):
                 picture_file = save_picture(form.picture.data)
                 current_user.image_file = picture_file
             
-            current_user.username = form.username.data
-            current_user.email= form.email.data
-            current_user.about_me= form.about_me.data
-            current_user.level = form.level.data
-            current_user.area = form.area.data
+            user= User(username=form.username.data, email=form.email.data, about_me=form.about_me.data, area=form.area.data, level=form.level.data)
+            db.session.add(user)
             db.session.commit()
             flash('Your Profile has been up updated 🚀', 'success')
             return redirect(url_for('settings'))
@@ -153,17 +150,35 @@ def create_app(test_config=None):
         return render_template('settings.html', title='Settings', image_file = image_file, form=form )
         
 
-      #map page sample
+      #map page add location
     @app.route('/newlocation', methods=['GET', 'POST'])
+    @login_required
     def newlocation():
         form= NewLocationForm()
-        if form.validate_on_submit():
-            print('handle')
+
+        if form.validate_on_submit():            
+            latitude = float(form.coord_latitude.data)
+            longitude = float(form.coord_longitude.data)
+            description = form.description.data
+
+            location = SampleLocation(
+                description=description,
+                geom=SampleLocation.point_representation(latitude=latitude, longitude=longitude)
+            )   
+            location.insert()
+
+            flash(f'New location created!', 'success')
+            return redirect(url_for('index'))
+
         return render_template(
-            'newlocation.html', form=form,  map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!')) 
+            'newlocation.html',
+            form=form,
+            map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!')
+        ) 
             
     #map page
     @app.route('/map', methods=['GET'])
+    @login_required
     def map():
         return render_template(
             'map.html', 

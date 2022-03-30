@@ -4,9 +4,6 @@
   type="text/css"
   href="{{ url_for('static', filename='css/login.css') }}"
 />
-<h1>Hello loginpage</h1>
-
-<p id="dromeas">Dromeas</p>
 
 <div class="container">
   <form method="POST" action="" id="content-container">
@@ -47,9 +44,7 @@
       {{ form.remember(class='form-check-input') }} {{
       form.remember.label(class='form-check-label') }}
     </div>
-    <div class="container">
-      {{ form.submit(class='btn btn-outline-primary') }}
-    </div>
+    <div class="container">{{ form.submit(class='btn ') }}</div>
 
     <small class="text-muted ml-2"
       ><a class="ml-2" href="#">Forgot Password?</a>

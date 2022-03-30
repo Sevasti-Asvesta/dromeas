@@ -9,15 +9,19 @@
   border: 1px solid #dddddd;
   border-radius: 20px;
   margin-bottom: 20px;
-
+  margin-top: 40px;
   width: 600px;
 
   font-family: "Open Sans", sans-serif;
 }
-#dromeas {
-  text-align: -webkit-center;
-  border: solid;
-  border-radius: 100%;
-  width: 200px;
-  height: 200px;
+legend {
+  font-family: "Pacifico", cursive;
+  color: #04fdaeed;
+}
+.btn {
+  background-color: #04fdaeed;
+  border: solid #04fdaeed;
+}
+body {
+  background-color: #f9f9fa;
 }

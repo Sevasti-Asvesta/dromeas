@@ -1,5 +1,3 @@
-
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
@@ -66,9 +64,9 @@ class UpdateSettingsForm(FlaskForm):
                 raise ValidationError('That Email already exists.')
 
 class NewLocationForm(FlaskForm):
-   description= StringField
+   description = StringField('Location description', validators=[DataRequired(), Length(min=1, max=80)])
 
-   lookup_address= StringField
-   coord_latitude=HiddenField
-   coord_longtitude=HiddenField
-   submit= SubmitField
+   lookup_address = StringField('Search address')
+   coord_latitude = HiddenField('Latitude',validators=[DataRequired()])
+   coord_longitude = HiddenField('Longitude', validators=[DataRequired()])
+   submit = SubmitField('Create Location')
