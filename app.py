@@ -5,7 +5,7 @@ from PIL import Image
 from flask import Flask, request, abort, jsonify, render_template, url_for, flash, redirect
 from flask_cors import CORS
 import traceback
-from models import setup_db, SampleLocation,  User, db #,db_drop_and_create_all
+from models import SpatialConstants, setup_db, SampleLocation,  User, db #,db_drop_and_create_all
 #importing from forms.py the classes and then create routes
 from forms import NewLocationForm, RegistrationForm, LoginForm, UpdateSettingsForm
 from flask_wtf.csrf import CSRFProtect
@@ -68,12 +68,21 @@ def create_app(test_config=None):
         form = RegistrationForm()
         if form.validate_on_submit():
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-            user= User(username=form.username.data, email=form.email.data, password= hashed_password, about_me=form.about_me.data, area=form.area.data, level=form.level.data)
+            user= User(username=form.username.data, 
+            email=form.email.data, 
+            password= hashed_password, 
+            about_me=form.about_me.data, 
+            area=form.lookup_address.data, 
+            level=form.level.data,
+            geom=SpatialConstants.point_representation(
+                form.coord_latitude.data,form.coord_longitude.data))
             db.session.add(user)
             db.session.commit()
             flash(f'Account created for {form.username.data}', 'success')
             return redirect(url_for('login'))
-        return render_template('signup.html', title= 'Sign Up', form= form)
+        return render_template('signup.html', title= 'Sign Up', 
+          form= form, 
+          map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!'))
     
     #login page
     @app.route('/login', methods=['GET', 'POST'])
@@ -216,7 +225,7 @@ def create_app(test_config=None):
             longitude = float(request.args.get('lng'))
             radius = int(request.args.get('radius'))
             
-            locations = SampleLocation.get_items_within_radius(latitude, longitude, radius)
+            locations = User.get_items_within_radius(latitude, longitude, radius)
             return jsonify(
                 {
                     "success": True,

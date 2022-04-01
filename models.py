@@ -75,6 +75,22 @@ def insert_sample_locations():
 
 class SpatialConstants:
     SRID = 4326
+    @staticmethod
+    def point_representation(latitude, longitude):
+        point = 'POINT(%s %s)' % (longitude, latitude)
+        wkb_element = WKTElement(point, srid=SpatialConstants.SRID)
+        return wkb_element
+    @staticmethod
+    def get_location_latitude(geom):
+        point = to_shape(geom)
+        return point.y
+    @staticmethod
+    def get_location_longitude(geom):
+        point = to_shape(geom)
+        return point.x
+
+
+
 class SampleLocation(db.Model):
     __tablename__ = 'sample_locations'
 
@@ -148,7 +164,38 @@ class User(db.Model, UserMixin):
     about_me = db.Column(db.Text, nullable= False)
     area= db.Column(db.String(100), nullable= False)
     level= db.Column(db.String(100), nullable= False)
+    geom = Column(Geometry(geometry_type='POINT', srid=SpatialConstants.SRID))
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}','{self.image_file}','{self.about_me},'{self.level},'{self.area})"
 
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email':self.email,
+            'image_file':self.image_file,
+            'about_me':self.about_me,
+            'level':self.level,
+            'location': {
+                'lng': SpatialConstants.get_location_longitude(self.geom),
+                'lat': SpatialConstants.get_location_latitude(self.geom)
+            }
+        }  
+
+    @staticmethod
+    def get_items_within_radius(lat, lng, radius):
+        """Return all sample locations within a given radius (in meters)"""
+
+        #TODO: The arbitrary limit = 100 is just a quick way to make sure 
+        # we won't return tons of entries at once, 
+        # paging needs to be in place for real usecase
+        results = User.query.filter(
+            ST_DWithin(
+                cast(User.geom, Geography),
+                cast(from_shape(Point(lng, lat)), Geography),
+                radius)
+            ).limit(100).all() 
+
+        return [l.to_dict() for l in results]    
