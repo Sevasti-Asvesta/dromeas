@@ -48,7 +48,9 @@ class UpdateSettingsForm(FlaskForm):
      about_me=TextAreaField('About Me', validators=[DataRequired()])
      level=SelectField('Level',choices=['Beginner', 'Intermediate', 'Expert'], validators=[DataRequired()])
      area=StringField('Area', validators=[DataRequired()])
-
+     lookup_address = StringField('Search address') ##
+     coord_latitude = HiddenField('Latitude',validators=[DataRequired()])##
+     coord_longitude = HiddenField('Longitude', validators=[DataRequired()])##
      submit = SubmitField('Update')
     
      def validate_username(self, username):

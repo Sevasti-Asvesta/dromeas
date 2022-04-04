@@ -144,8 +144,13 @@ def create_app(test_config=None):
                 picture_file = save_picture(form.picture.data)
                 current_user.image_file = picture_file
             
-            user= User(username=form.username.data, email=form.email.data, about_me=form.about_me.data, area=form.area.data, level=form.level.data)
-            db.session.add(user)
+            current_user.username = form.username.data
+            current_user.email = form.email.data 
+            current_user.about_me = form.about_me.data
+            current_user.level = form.level.data
+            current_user.area = form.area.data
+            current_user.coord_latitude = form.coord_latitude.data
+            current_user.coord_longitude = form.coord_longitude.data
             db.session.commit()
             flash('Your Profile has been up updated 🚀', 'success')
             return redirect(url_for('settings'))
@@ -156,7 +161,10 @@ def create_app(test_config=None):
             form.level.data = current_user.level
             form.area.data=current_user.area
         image_file= url_for('static', filename='images/' + current_user.image_file)
-        return render_template('settings.html', title='Settings', image_file = image_file, form=form )
+        return render_template('settings.html', title='Settings', 
+        image_file = image_file, 
+        form=form, 
+        map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!'))
         
 
       #map page add location
@@ -193,7 +201,18 @@ def create_app(test_config=None):
             'map.html', 
             map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!')
         )
+    
+    ##adding the marker functionality into the map##
+    @app.route('/detail', methods=['GET'])
+    def detail():
+        location_id = float(request.args.get('id'))
+        item = SampleLocation.query.get(location_id)
+        return render_template(
+            'detail.html', 
+            item=item,
+            map_key=os.getenv('GOOGLE_MAPS_API_KEY', 'GOOGLE_MAPS_API_KEY_WAS_NOT_SET?!'))
 
+            
     @app.route("/api/store_item")
     def store_item():
         try:
@@ -255,7 +274,7 @@ def create_app(test_config=None):
 app= create_app()  
 
 if __name__ == '__main__':
-    #port = int(os.environ.get("PORT",5000))
-    app.run(debug=True) #host='127.0.0.1',port=port,
+    port = int(os.environ.get("PORT",5000))
+    app.run( host='127.0.0.1',port=port,debug=True)
 
   

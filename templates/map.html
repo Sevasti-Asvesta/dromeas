@@ -1,21 +1,44 @@
 {% extends 'navbar.html' %} {% block head %}
 
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/map.css') }}"
+/>
 
-    <script src="{{ url_for('static', filename='map.js') }}"></script>
-    {% endblock %}
-    {% block content %}
-    <a href="{{ url_for('newlocation') }}">New Location</a>
-    
-    <div id="container" style="width: 600px; height: 600px">
-      <!--Google map-->
-      <div id="map" style="height: 100%"></div>
-    </div>
+<script src="{{ url_for('static', filename='map.js') }}"></script>
+{% endblock %} {% block content %}
+<div class="container">
+  <form
+    method="GET"
+    action=""
+    onsubmit="return searchAddressSubmit()"
+    id="content-container"
+  >
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">See who's training near you 🤸‍♀️</legend>
+      <input
+        class="form-control"
+        id="search_address"
+        type="search"
+        placeholder="Search near..."
+        aria-label="Search near"
+      />
+      <div class="center">
+        <button class="btn btn-info" type="submit">Search</button>
+      </div>
+      <div style="height: 600px">
+        <!--Google map-->
+        <div id="map" style="height: 100%"></div>
+      </div>
+    </fieldset>
+  </form>
+</div>
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key={{map_key}}&callback=initMap&libraries=geometry&v=weekly"
-      async
-    ></script>
-  </body>
-</html>
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+  src="https://maps.googleapis.com/maps/api/js?key={{map_key}}&callback=initMap&libraries=geometry&v=weekly"
+  async
+></script>
+
 {% endblock %}

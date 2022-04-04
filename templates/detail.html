@@ -1,0 +1,8 @@
+{% extends "navbar.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='map.css') }}"
+/>
+{% endblock %} {% block body %} Sample location description:
+{{item.description}} {% endblock %}
