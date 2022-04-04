@@ -1,3 +1,4 @@
+
 import os
 import sys
 import secrets
@@ -108,12 +109,22 @@ def create_app(test_config=None):
 
     
     #profile page
-    @app.route('/profile')
+    @app.route('/profile', methods=["GET"])
     @login_required
     def profile():
-        
-        image_file = url_for('static', filename= 'images/' + current_user.image_file)
-        return render_template('profile.html', title='Profile', image_file= image_file)
+        profile= current_user
+        if request.args.get('id'):
+            user_id = int(request.args.get('id'))
+            user=User.query.get(user_id)
+            profile= user   
+
+            
+
+        image_file = url_for('static', filename= 'images/' + profile.image_file)
+        return render_template('profile.html', 
+             title='Profile', 
+             image_file= image_file, 
+             profile=profile)
 
     
     #function for the images
