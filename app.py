@@ -115,9 +115,14 @@ def create_app(test_config=None):
         profile= current_user
         if request.args.get('id'):
             user_id = int(request.args.get('id'))
-            user=User.query.get(user_id)
-            profile= user   
+            user=User.query.get(user_id)#verify if user is found or not
+            if not  user:
+                flash("Oops..!Something went wrong. The Page you are trying to reach doesn't exist", 'danger')
+                return render_template('index.html')
 
+            profile= user   
+        
+        
             
 
         image_file = url_for('static', filename= 'images/' + profile.image_file)

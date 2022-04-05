@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+title {
+  font-family: "Pacifico", cursive;
+  font-weight: bold;
+}
+
 .main-header {
   font-family: "Pacifico", cursive;
   font-weight: bold;
