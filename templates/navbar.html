@@ -62,12 +62,7 @@
             </li>
 
             {% if current_user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('newlocation') }}"
-                ><i class="fa-solid fa-location-dot"></i>new location</a
-              >
-            </li>
-
+            
             <li class="nav-item">
               <a class="nav-link active" href="{{ url_for('map') }}"
                 ><i class="fa-solid fa-location-dot"></i>Find a Dromèas</a
@@ -78,10 +73,7 @@
                 ><i class="fa-solid fa-user"></i>Profile</a
               >
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('settings') }}"
-                ><i class="fa-solid fa-gears"></i>Settings</a
-              >
+            
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="{{ url_for('logout') }}"

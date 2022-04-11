@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 body {
   background-color: #f9f9fa;
 }
-
+h1 {
+  font-family: "Pacifico", cursive;
+}
 /*.padding {
   padding: 3rem !important;
 }*/
@@ -93,6 +97,8 @@ h6 {
 
 .mb-10 {
   margin-bottom: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
 }
 
 .text-muted {
@@ -105,6 +111,9 @@ h6 {
 
 .f-w-600 {
   font-weight: 600;
+}
+#profile-username {
+  font-family: "Pacifico", cursive;
 }
 
 .mb-20 {

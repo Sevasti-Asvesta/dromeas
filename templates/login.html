@@ -23,9 +23,7 @@
         {% else %} {{ form.email(class='form-control form-control-lg') }} {%
         endif %}
 
-        <div class="form-text">
-          We'll never share your email with anyone else.
-        </div>
+        <div class="form-text">Please insert your email</div>
       </div>
       <div class="mb-3">
         {{ form.password.label(class='form-control-label') }} {% if
@@ -44,11 +42,8 @@
       {{ form.remember(class='form-check-input') }} {{
       form.remember.label(class='form-check-label') }}
     </div>
-    <div class="container">{{ form.submit(class='btn ') }}</div>
+    <div class="container mb-3">{{ form.submit(class='btn ') }}</div>
 
-    <small class="text-muted ml-2"
-      ><a class="ml-2" href="#">Forgot Password?</a>
-    </small>
     <div class="border-top pt3">
       <small class="text-muted">
         Need An Account?
